@@ -1,0 +1,3 @@
+[submodule "Signal_processing_toolbox"]
+	path = Signal_processing_toolbox
+	url = https://github.com/neby68/Signal_processing_toolbox.git
