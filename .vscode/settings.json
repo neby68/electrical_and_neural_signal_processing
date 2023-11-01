@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./Signal_processing_toolbox/src"
+    ]
+}
