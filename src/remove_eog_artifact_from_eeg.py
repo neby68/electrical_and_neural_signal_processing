@@ -34,11 +34,11 @@ def remove_artifact_with_last_square_between_two_signals_example():
             .. math::
                 res = y - X\beta
 
-    .. image:: _static/images/TimeSeriesDenoising/Artifact_with_EEG_EOG.png
+    .. image:: _static/images/Artifact_with_EEG_EOG.png
 
     **color map of the EOG, EEG, and residual signal:**
     
-    .. image:: _static/images/TimeSeriesDenoising/color_map_eeg_eog.png
+    .. image:: _static/images/color_map_eeg_eog.png
     
     """
     file_data_path = os.path.join(root_path, "data/templateProjection.mat")

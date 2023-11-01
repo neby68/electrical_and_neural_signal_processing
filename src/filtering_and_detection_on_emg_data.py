@@ -24,7 +24,7 @@ def TKEO_example():
     Method:
         TKEO will amplify/highly phases with high energy changes.
 
-    .. image:: _static/images/TimeSeriesDenoising/TKEO.png
+    .. image:: _static/images/TKEO.png
 
     
     """
