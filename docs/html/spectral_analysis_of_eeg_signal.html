@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>remove_eog_artifact_from_eeg module &mdash; Electrical and neural signal processing Example 0.0.0 documentation</title>
+  <title>spectral_analysis_of_eeg_signal module &mdash; Electrical and neural signal processing Example 0.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,12 +16,10 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=525cde36"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=4825356b"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="spectral_analysis_of_eeg_signal module" href="spectral_analysis_of_eeg_signal.html" />
-    <link rel="prev" title="filtering_and_detection_on_emg_data module" href="filtering_and_detection_on_emg_data.html" /> 
+    <link rel="prev" title="remove_eog_artifact_from_eeg module" href="remove_eog_artifact_from_eeg.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +45,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="filtering_and_detection_on_emg_data.html">filtering_and_detection_on_emg_data module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">remove_eog_artifact_from_eeg module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#remove_eog_artifact_from_eeg.remove_artifact_with_last_square_between_two_signals_example"><code class="docutils literal notranslate"><span class="pre">remove_artifact_with_last_square_between_two_signals_example()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="remove_eog_artifact_from_eeg.html">remove_eog_artifact_from_eeg module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">spectral_analysis_of_eeg_signal module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spectral_analysis_of_eeg_signal.welch_example"><code class="docutils literal notranslate"><span class="pre">welch_example()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="spectral_analysis_of_eeg_signal.html">spectral_analysis_of_eeg_signal module</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://github.com/neby68/electrical_and_neural_signal_processing">Git Repository</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://neby68.github.io/Signal_processing_toolbox/">Signal Processing toolbox's documentation</a></li>
 </ul>
@@ -78,9 +76,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">src</a></li>
-      <li class="breadcrumb-item active">remove_eog_artifact_from_eeg module</li>
+      <li class="breadcrumb-item active">spectral_analysis_of_eeg_signal module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/remove_eog_artifact_from_eeg.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/spectral_analysis_of_eeg_signal.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -88,30 +86,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-remove_eog_artifact_from_eeg">
-<span id="remove-eog-artifact-from-eeg-module"></span><h1>remove_eog_artifact_from_eeg module<a class="headerlink" href="#module-remove_eog_artifact_from_eeg" title="Permalink to this heading"></a></h1>
+  <section id="module-spectral_analysis_of_eeg_signal">
+<span id="spectral-analysis-of-eeg-signal-module"></span><h1>spectral_analysis_of_eeg_signal module<a class="headerlink" href="#module-spectral_analysis_of_eeg_signal" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="remove_eog_artifact_from_eeg.remove_artifact_with_last_square_between_two_signals_example">
-<span class="sig-name descname"><span class="pre">remove_artifact_with_last_square_between_two_signals_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/remove_eog_artifact_from_eeg.html#remove_artifact_with_last_square_between_two_signals_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#remove_eog_artifact_from_eeg.remove_artifact_with_last_square_between_two_signals_example" title="Permalink to this definition"></a></dt>
-<dd><p>Example of removeing an artifact from a signal using the last square method:</p>
-<dl>
-<dt>Context:</dt><dd><p>EEG signal can be conain artifact because of the eyes movement (EOG signal).</p>
-</dd>
-<dt>Goal:</dt><dd><p>Remove the eye movement artifact</p>
-</dd>
-<dt>Method:</dt><dd><p>Use the last square template matching to remove the EOG artifact.</p>
-<p>last square template matching:</p>
+<dt class="sig sig-object py" id="spectral_analysis_of_eeg_signal.welch_example">
+<span class="sig-name descname"><span class="pre">welch_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_analysis_of_eeg_signal.html#welch_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_analysis_of_eeg_signal.welch_example" title="Permalink to this definition"></a></dt>
+<dd><p>Spectral analysis of an EEG signal using welch method</p>
+<p><strong>Welch method:</strong></p>
 <blockquote>
-<div><div class="math notranslate nohighlight">
-\[\beta = (X^TX)^{-1}X^Ty\]</div>
-<div class="math notranslate nohighlight">
-\[res = y - X\beta\]</div>
+<div><p>Cut the signal in n window and compute fft on each of them.</p>
+<p>Imagine a time-domain signal represented as a sinusoidal wave.
+At the core of the Welch method, you divide this signal into partially overlapping segments.
+For each segment, you apply a window to mitigate edge effects. T
+hen, instead of taking the FFT of the entire signal, you take the FFT of each modified segment and average them.</p>
+<p>The idea is that this overlapping approach reduces the variance of the estimation,
+which can be particularly useful when the signal changes over time.</p>
 </div></blockquote>
-</dd>
-</dl>
-<img alt="_images/Artifact_with_EEG_EOG.png" src="_images/Artifact_with_EEG_EOG.png" />
-<p><strong>color map of the EOG, EEG, and residual signal:</strong></p>
-<img alt="_images/color_map_eeg_eog.png" src="_images/color_map_eeg_eog.png" />
+<p><strong>Advantage over fft:</strong></p>
+<blockquote>
+<div><p>More adapt if signal characteristics change over time.
+E.g Noise increase/ decrease/ change of shape over time.</p>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<img alt="_images/EEG_signal.png" src="_images/EEG_signal.png" />
+<img alt="_images/welch_versus_fft.png" src="_images/welch_versus_fft.png" />
 </dd></dl>
 
 </section>
@@ -120,8 +118,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="filtering_and_detection_on_emg_data.html" class="btn btn-neutral float-left" title="filtering_and_detection_on_emg_data module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="spectral_analysis_of_eeg_signal.html" class="btn btn-neutral float-right" title="spectral_analysis_of_eeg_signal module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="remove_eog_artifact_from_eeg.html" class="btn btn-neutral float-left" title="remove_eog_artifact_from_eeg module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
