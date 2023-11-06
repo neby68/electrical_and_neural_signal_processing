@@ -8,6 +8,7 @@ src
    remove_eog_artifact_from_eeg
    spectral_analysis_of_eeg_signal
    EEG_visualisation
+   MNE_tutorial_EEG_MEG_processing
 
 
 .. toctree::
