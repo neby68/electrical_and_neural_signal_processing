@@ -4,7 +4,7 @@
 
 
 def MNE_tutorial_EEG_MEG_processing():
-    """
+    r"""
     Neural data preprocessing and visualization using MNE library.
     ! It is a MNE tutorial!
 
