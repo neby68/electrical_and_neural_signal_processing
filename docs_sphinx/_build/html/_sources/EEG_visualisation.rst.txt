@@ -1,4 +1,4 @@
-EEG\_visualisation module
+EEG\_visualisation
 =========================
 
 .. automodule:: EEG_visualisation

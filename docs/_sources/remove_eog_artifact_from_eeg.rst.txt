@@ -1,4 +1,4 @@
-remove\_eog\_artifact\_from\_eeg module
+remove\_eog\_artifact\_from\_eeg
 =======================================
 
 .. automodule:: remove_eog_artifact_from_eeg

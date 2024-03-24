@@ -30,13 +30,3 @@ This page may reference the `Signal Processing toolbox's documentation <https://
    Git Repository <https://github.com/neby68/electrical_and_neural_signal_processing>
    Signal Processing toolbox's documentation <https://neby68.github.io/Signal_processing_toolbox/>
 
-
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
