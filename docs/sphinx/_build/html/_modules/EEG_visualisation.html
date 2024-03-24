@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EEG_visualisation &mdash; Electrical and neural signal processing Example 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Electrical and neural signal processing Example
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/neby68/electrical_and_neural_signal_processing">Git Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://neby68.github.io/Signal_processing_toolbox/">Signal Processing toolbox's documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Electrical and neural signal processing Example</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">EEG_visualisation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for EEG_visualisation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">loadmat</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">label</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">griddata</span>
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">from</span> <span class="nn">mne.channels</span> <span class="kn">import</span> <span class="n">make_standard_montage</span>
+<span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">create_info</span>
+<span class="kn">from</span> <span class="nn">mne.viz</span> <span class="kn">import</span> <span class="n">plot_topomap</span>
+
+
+
+
+<div class="viewcode-block" id="EEG_ERP">
+<a class="viewcode-back" href="../EEG_visualisation.html#EEG_visualisation.EEG_ERP">[docs]</a>
+<span class="k">def</span> <span class="nf">EEG_ERP</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EEG basic visualization</span>
+<span class="sd">        - Event related potential (ERP)</span>
+<span class="sd">        - Topography</span>
+
+
+<span class="sd">    **Event related potential (ERP):**</span>
+<span class="sd">        Is simply the mean value of the different trials</span>
+
+
+<span class="sd">        Example of ERP for one channel:</span>
+
+<span class="sd">        </span>
+<span class="sd">        .. image:: _static/images/EEG_ERP.png</span>
+
+
+<span class="sd">        Example of ERP for all channel using MNE library: It give directly additional information on topography</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        .. image:: _static/images/EEG_ERP_MNE.png</span>
+
+
+<span class="sd">    **Topography:**</span>
+<span class="sd">        .. image:: _static/images/EEG_ERP_topography.png</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Charger les données EEG</span>
+    <span class="n">EEG</span> <span class="o">=</span> <span class="n">loadmat</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;SignalProcessing_on_neural_data\uANTS_intro_MATLABfiles\sampleEEGdata.mat&quot;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">EEG</span><span class="p">[</span><span class="s1">&#39;EEG&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">chanlocs</span> <span class="o">=</span> <span class="n">EEG</span><span class="p">[</span><span class="s1">&#39;EEG&#39;</span><span class="p">][</span><span class="s1">&#39;chanlocs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">EEG</span><span class="p">[</span><span class="s1">&#39;EEG&#39;</span><span class="p">][</span><span class="s1">&#39;times&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">srate</span> <span class="o">=</span> <span class="n">EEG</span><span class="p">[</span><span class="s1">&#39;EEG&#39;</span><span class="p">][</span><span class="s1">&#39;srate&#39;</span><span class="p">]</span>
+    <span class="n">ntrials</span> <span class="o">=</span> <span class="n">EEG</span><span class="p">[</span><span class="s1">&#39;EEG&#39;</span><span class="p">][</span><span class="s1">&#39;trials&#39;</span><span class="p">]</span>
+
+    <span class="n">chan_name_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">channel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">chanlocs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">channel</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">chanlocs</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">channel</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">chanlocs</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">channel</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">chanlocs</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]]</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="c1">#(64, 640, 99) electrode, timepoints, trial</span>
+    <span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">transposed_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="c1">#(99, 64, 640 )trial, electrode, timepoints</span>
+
+
+    <span class="c1"># Calculer l&#39;ERP de chaque canal</span>
+    <span class="n">erp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Tracer l&#39;ERP pour un canal spécifique</span>
+    <span class="n">chan2plot</span> <span class="o">=</span> <span class="s1">&#39;FCz&#39;</span>
+    <span class="n">chan_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">chan_name_arr</span> <span class="o">==</span> <span class="n">chan2plot</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chan_index</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">chan_index</span> <span class="o">=</span> <span class="n">chan_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;ERP&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">erp</span><span class="p">[</span><span class="n">chan_index</span><span class="p">,</span> <span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Temps (ms)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Activité (\muV)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">400</span><span class="p">,</span> <span class="mi">1200</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># Tracer les cartes topographiques</span>
+    <span class="n">time2plot</span> <span class="o">=</span> <span class="mi">300</span>  <span class="c1"># en ms</span>
+    <span class="n">tidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span> <span class="o">-</span> <span class="n">time2plot</span><span class="p">))</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">create_info</span><span class="p">(</span><span class="n">ch_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">chan_name_arr</span><span class="p">),</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">srate</span><span class="p">,</span> <span class="n">ch_types</span><span class="o">=</span><span class="s1">&#39;eeg&#39;</span><span class="p">)</span>
+    <span class="n">evoked_array</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">EvokedArray</span><span class="p">(</span><span class="n">erp</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+    <span class="n">evoked_array</span><span class="o">.</span><span class="n">_set_channel_positions</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">chan_name_arr</span><span class="p">)</span>
+
+
+    <span class="c1">#plot the ERP of every channel</span>
+    <span class="n">evoked_array</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+    <span class="c1">#plot the ERP topography</span>
+    <span class="c1"># times = np.arange(0.01, 0.05, 0.1)</span>
+    <span class="c1"># evoked_array.plot_topomap(times)</span>
+    <span class="n">evoked_array</span><span class="o">.</span><span class="n">plot_topomap</span><span class="p">()</span></div>
+
+
+
+    <span class="c1"># evoked_array = mne.EpochsArray(data[:,:,:], info)</span>
+    <span class="c1"># fig, ax = plot_topomap(data, pos=info, names=info.ch_names)</span>
+    <span class="c1"># # Afficher la figure</span>
+    <span class="c1"># mne.viz.tight_layout()</span>
+    <span class="c1"># mne.viz.show()</span>
+
+
+<div class="viewcode-block" id="example_mne_evoked_plot_topomap">
+<a class="viewcode-back" href="../EEG_visualisation.html#EEG_visualisation.example_mne_evoked_plot_topomap">[docs]</a>
+<span class="k">def</span> <span class="nf">example_mne_evoked_plot_topomap</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example of Topography visualization using MNE library</span>
+
+<span class="sd">    .. image:: _static/images/topography_mne_example.png</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">mne.datasets</span> <span class="kn">import</span> <span class="n">sample</span>
+    <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">read_evokeds</span>
+
+    <span class="c1"># print(__doc__)</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">data_path</span><span class="p">()</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;MEG&quot;</span> <span class="o">/</span> <span class="s2">&quot;sample&quot;</span> <span class="o">/</span> <span class="s2">&quot;sample_audvis-ave.fif&quot;</span>
+
+    <span class="c1"># load evoked corresponding to a specific condition</span>
+    <span class="c1"># from the fif file and subtract baseline</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;Left Auditory&quot;</span>
+    <span class="n">evoked</span> <span class="o">=</span> <span class="n">read_evokeds</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.151</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+    <span class="n">evoked</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">evoked</span><span class="o">.</span><span class="n">plot_topomap</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">ch_type</span><span class="o">=</span><span class="s2">&quot;mag&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># # Charger les données CSD V1</span>
+<span class="c1"># csd_data = loadmat(&#39;v1_laminar.mat&#39;, squeeze_me=True)</span>
+<span class="c1"># csd = csd_data[&#39;csd&#39;]</span>
+<span class="c1"># timevec = csd_data[&#39;timevec&#39;]</span>
+
+<span class="c1"># # Tracer l&#39;ERP du canal 7</span>
+<span class="c1"># plt.figure()</span>
+<span class="c1"># plt.plot(timevec, np.mean(csd[6, :, :], axis=0))</span>
+<span class="c1"># plt.axhline(0, color=&#39;k&#39;, linestyle=&#39;--&#39;)</span>
+<span class="c1"># plt.axvline(0, color=&#39;k&#39;, linestyle=&#39;--&#39;)</span>
+<span class="c1"># plt.axvline(0.5, color=&#39;k&#39;, linestyle=&#39;--&#39;)</span>
+<span class="c1"># plt.xlabel(&#39;Temps (s)&#39;)</span>
+<span class="c1"># plt.ylabel(&#39;Activité (\muV)&#39;)</span>
+<span class="c1"># plt.xlim([-0.1, 1.4])</span>
+<span class="c1"># plt.show()</span>
+
+<span class="c1"># # Tracer l&#39;image de profondeur par temps de l&#39;ERP</span>
+<span class="c1"># plt.figure()</span>
+<span class="c1"># plt.contourf(timevec, np.arange(1, 17), np.mean(csd, axis=2), 40, cmap=&#39;viridis&#39;, alpha=0.7)</span>
+<span class="c1"># plt.xlabel(&#39;Temps (sec.)&#39;)</span>
+<span class="c1"># plt.ylabel(&#39;Profondeur corticale&#39;)</span>
+<span class="c1"># plt.xlim([0, 1.3])</span>
+<span class="c1"># plt.colorbar()</span>
+<span class="c1"># plt.show()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">example_mne_evoked_plot_topomap</span><span class="p">()</span>
+    <span class="n">EEG_ERP</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nicolas Eby.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

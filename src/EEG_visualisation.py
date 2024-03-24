@@ -57,7 +57,6 @@ def EEG_ERP():
     position = np.vstack([x, y, z]).T
 
     data.shape #(64, 640, 99) electrode, timepoints, trial
-    (99, 64, 640)
     data = transposed_array = np.transpose(data, (2, 0, 1))
     data.shape #(99, 64, 640 )trial, electrode, timepoints
 
@@ -96,12 +95,81 @@ def EEG_ERP():
     # evoked_array.plot_topomap(times)
     evoked_array.plot_topomap()
 
-
-    # evoked_array = mne.EpochsArray(data[:,:,:], info)
-    # fig, ax = plot_topomap(data, pos=info, names=info.ch_names)
+    print('ja')
+    epoch = mne.EpochsArray(data[:,:,:], info)
+    fig, ax = plot_topomap(data, pos=info, names=info.ch_names)
     # # Afficher la figure
     # mne.viz.tight_layout()
     # mne.viz.show()
+
+
+
+
+
+    n_sensor = 10
+    n_trial = 5
+
+    # npoints = 100000
+
+    fs = 1000
+    t = np.arange(0, 2, 1/fs)
+    npoints = len(t)
+    # t = np.linspace(0, 100, npoints)
+    f_high = 500
+    f_low = 100
+    False
+
+    data = np.random.rand(10, npoints)
+    data = np.random.rand(5, 10, npoints)
+
+    for i in range(0, n_sensor):
+        for j in range(0, n_trial):
+            sig_high = np.sin(2 * np.pi * t * f_high * np.random.rand(npoints))*0.1
+            sig_medium = abs(np.sin(2 * np.pi * t * f_low)*(np.random.rand(npoints)>0.9)*1)
+            data[j, i,:] = sig_high + sig_medium
+            data[j, i,:] /= max(abs(data[j, i,:]))
+
+
+    # Créer un objet d'info fictif pour décrire les propriétés des capteurs
+    info = mne.create_info(ch_names=['sensor_{}'.format(i) for i in range(10)],
+                        sfreq=fs, ch_types='eeg')
+
+    # Créer un objet mne.EpochsArray en utilisant les données, l'info et les événements (peut être vide)
+    epochs = mne.EpochsArray(data, info)
+    epochs.plot( show_scrollbars=False, events=True)
+    epochs.average().plot()
+
+
+
+
+n_channels = 32
+sampling_freq = 200  
+
+
+times = np.linspace(0, 1, sampling_freq, endpoint=False)
+sine = np.sin(20 * np.pi * times)
+cosine = np.cos(10 * np.pi * times)
+data = np.array([sine, cosine])
+
+info = mne.create_info(
+    ch_names=["10 Hz sine", "5 Hz cosine"], ch_types=["misc"] * 2, sfreq=sampling_freq
+)
+
+simulated_raw = mne.io.RawArray(data, info)
+simulated_raw.plot(show_scrollbars=False, show_scalebars=False)
+
+data = np.array(
+    [
+        [0.2 * sine, 1.0 * cosine],
+        [0.4 * sine, 0.8 * cosine],
+        [0.6 * sine, 0.6 * cosine],
+        [0.8 * sine, 0.4 * cosine],
+        [1.0 * sine, 0.2 * cosine],
+    ]
+)
+
+simulated_epochs = mne.EpochsArray(data, info)
+simulated_epochs.plot(picks="misc", show_scrollbars=False, events=True)
 
 
 def example_mne_evoked_plot_topomap():
@@ -124,6 +192,7 @@ def example_mne_evoked_plot_topomap():
     evoked = read_evokeds(fname, condition=condition, baseline=(None, 0))
 
     times = np.arange(0.05, 0.151, 0.02)
+    evoked.plot()
     evoked.plot_topomap(times, ch_type="mag")
 
 
@@ -154,5 +223,5 @@ def example_mne_evoked_plot_topomap():
 
 
 if __name__ == "__main__":
-    # example_mne_evoked_plot_topomap()
+    example_mne_evoked_plot_topomap()
     EEG_ERP()
